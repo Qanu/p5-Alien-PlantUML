@@ -5,11 +5,21 @@ use warnings;
 use base qw( Alien::Base );
 use 5.008004;
 
+use File::Spec;
+
+sub jar_file {
+  my ($class) = @_;
+  if( $class->install_type eq 'share' ) {
+    return File::Spec->catfile( $class->dist_dir, $class->runtime_prop->{jar_file});
+  }
+  return $class->runtime_prop->{jar_file};
+}
+
 1;
 
 =head1 NAME
 
-Alien::PlantUML - Find or build PlantUML
+Alien::PlantUML - Find or build PlantUML diagram generator
 
 =head1 SYNOPSIS
 
@@ -29,9 +39,21 @@ will use that.  If it cannot be found, the source code will be downloaded
 from the internet and it will be installed in a private share location
 for the use of other modules.
 
+=head1 CLASS METHODS
+
+=head2 jar_file
+
+Returns the path to the JAR file for PlantUML:
+
+  system(qw(java), '-jar', Alien::PlantUML->jar_file, '-version');
+
 =head1 SEE ALSO
 
 =over 4
+
+=item L<PlantUML|https://plantuml.com/>
+
+PlantUML homepage
 
 =item L<Alien>
 
