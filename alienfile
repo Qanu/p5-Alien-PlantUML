@@ -1,0 +1,17 @@
+use alienfile;
+
+# replace this with your own system probe.
+# See Alien::Build::Plugin::Probe and
+# Alien::Build::Plugin::PkgConfig for common
+# probe plugins.
+probe sub { 'share' };
+
+share {
+  start_url 'https://github.com/plantuml/plantuml/releases/download/v1.2023.12';
+  plugin Download => (
+    filter  => qr/^plantuml.*2023\.12\.jar$/,
+    version => qr/([0-9\.]+)/,
+  );
+  plugin Extract => '2023.12.jar';
+  plugin 'Gather::IsolateDynamic';
+}
